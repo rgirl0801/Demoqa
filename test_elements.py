@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -7,11 +9,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 import os
 
 browser = webdriver.Chrome(ChromeDriverManager().install())
-browser.get('https://demoqa.com/elements')
 action = ActionChains(browser)
 
 
 def test_radiobutton():
+    browser.get('https://demoqa.com/elements')
     element = WebDriverWait(browser, 10).until(ec.element_to_be_clickable((
         By.XPATH, "//span[contains(text(),'Radio Button')]")))
     element.click()
@@ -45,6 +47,8 @@ def test_upload_and_download():
     browser.find_element(By.ID, "uploadFile").send_keys('/Users/kate/Downloads/image_2022-12-07_09-24-12.png')
     assert "C:\\fakepath\\" in browser.find_element(By.ID, "uploadedFilePath").text
     browser.find_element(By.ID, "downloadButton").click()
+    time.sleep(1)
+    assert os.path.exists("/Users/kate/Downloads/sampleFile.jpeg")
 
 
 def test_dynamic_properties():
